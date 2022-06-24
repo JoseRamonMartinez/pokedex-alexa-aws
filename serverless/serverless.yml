@@ -1,0 +1,145 @@
+service: pokedex
+
+package:
+  exclude:
+    - ./**
+    - node_modules/**
+    - venv/**
+  include:
+    - lambdas/**
+    - tools/**
+
+provider:
+  name: aws
+  stage: ${self:custom.stage}
+  endpointType: regional
+  runtime: python3.7
+  region: ${self:custom.region}
+  environment:
+    POKEMONS_TABLE: ${self:custom.pokemonsTable}
+
+  apiKeys:
+    - lowrate:
+        - lowratePokemonApiKey2022
+  usagePlan:
+    - lowrate:
+        quota:
+          limit: 5000
+          offset: 2
+          period: MONTH
+        throttle:
+          burstLimit: 200
+          rateLimit: 100
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - arn:aws:dynamodb:*:*:*
+        - arn:aws:dynamodb:${self:custom.region}:*:table/${self:custom.pokemonsTable}
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource:
+        - arn:aws:lambda:${self:custom.region}:${self:custom.accountId}:function:${self:custom.prefix}-${self:custom.region}-get_pokemon_by_number
+        - arn:aws:lambda:${self:custom.region}:${self:custom.accountId}:function:${self:custom.prefix}-${self:custom.region}-get_pokemon_by_name
+        - arn:aws:lambda:${self:custom.region}:${self:custom.accountId}:function:${self:custom.prefix}-${self:custom.region}-post_pokemon
+    - Effect: Allow
+      Action:
+        - xray:PutTraceSegments
+        - xray:PutTelemetryRecords
+      Resource:
+        - "*"
+
+custom:
+  region: eu-west-1
+  stage: prod
+  prefix: pokedex
+  accountId: ${self:custom.config.accountIdNumber}
+  pokemonsTable: ${self:service}-${self:custom.config.pokemonsTableName}.${self:custom.region}.com
+  seed:
+    domain:
+        table: ${self:custom.pokemonsTable}
+        sources: ${self:custom.config.pokemonsSeeder}
+
+  #-------------VARIABLES------------------------------------
+  config: ${file(./config.yml)}
+
+  #-------------LAMBDAS------------------------------------
+functions:
+
+  #-------------POKEMONS-----------------------------------
+  get_pokemon_by_id:
+    handler: lambdas/pokemons/handler_pokemons.h_get_pokemon_by_id
+    layers:
+      - arn:aws:lambda:${self:custom.region}:${self:custom.accountId}:layer:aws-xray-sdk:2
+    events:
+      - http:
+          path: ${self:custom.config.apiUrls.pokemons}/id/{name}
+          method: get
+          cors: true
+          private: true
+
+  get_pokemon_by_name:
+    handler: lambdas/pokemons/handler_pokemons.h_get_pokemon_by_name
+    layers:
+      - arn:aws:lambda:${self:custom.region}:${self:custom.accountId}:layer:aws-xray-sdk:2
+    events:
+      - http:
+          path: ${self:custom.config.apiUrls.pokemons}/name/{name}
+          method: get
+          cors: true
+          private: true
+
+  post_pokemon:
+    handler: lambdas/pokemons/handler_pokemons.h_post_pokemon
+    layers:
+      - arn:aws:lambda:${self:custom.region}:${self:custom.accountId}:layer:aws-xray-sdk:2
+    events:
+      - http:
+          path: ${self:custom.config.apiUrls.pokemons}/post
+          method: post
+          cors: true
+          private: true
+
+resources:
+  Resources:
+    #-------------DYNAMODB------------------------------------
+    pokemonsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.pokemonsTable}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: N
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: NameIndex
+            KeySchema:
+              - AttributeName: name
+                KeyType: HASH
+              - AttributeName: id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: 'ALL'
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+#---------PLUGINS----------
+plugins:
+  - serverless-python-requirements
+  - serverless-plugin-tracing
+  - serverless-dynamodb-seed

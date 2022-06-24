@@ -1,0 +1,6 @@
+/serverless/.dynamodb
+/serverless/node_modules
+/serverless/*__pycache__*
+/serverless/.serverless
+/serverless/.DS_Store
+/serverless/config.yml
