@@ -3,4 +3,6 @@
 /serverless/*__pycache__*
 /serverless/.serverless
 /serverless/.DS_Store
-/serverless/config.yml
+/serverless/config.
+
+.DS_Store

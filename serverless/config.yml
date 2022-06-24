@@ -1,0 +1,11 @@
+#-------------DYNAMODB-------------------------------
+pokemonsTableName: Pokemons
+pokemonsSeeder: [./seeds/pokemons.json]
+
+#-------------API GATEWAY---------------------------
+apiUrls:
+  pokemons: pokemons
+
+#----------AccountId----------
+accountIdNumber: 533796783460
+
