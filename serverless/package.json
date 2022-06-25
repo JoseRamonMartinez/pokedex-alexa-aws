@@ -3,15 +3,14 @@
   "description": "Pokedex serverles APP",
   "version": "1.0.0",
   "scripts": {
-    "deploy:personal": "sls deploy --aws-profile personal",
-    "seed:personal": "sls dynamodb:seed --aws-profile personal"
+    "deploy": "serverless deploy"
   },
   "author": "Jose Ramon Martinez Riveiro",
   "license": "ISC",
   "devDependencies": {
-    "serverless": "1.67.2",
-    "serverless-dynamodb-seed": "0.3.0",
-    "serverless-plugin-tracing": "2.0.0",
-    "serverless-python-requirements": "5.1.1"
+    "serverless": "^1.67.2",
+    "serverless-dynamodb-seed": "^0.3.0",
+    "serverless-plugin-tracing": "^2.0.0",
+    "serverless-python-requirements": "^5.1.1"
   }
 }
