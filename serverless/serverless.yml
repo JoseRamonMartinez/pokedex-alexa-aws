@@ -63,6 +63,9 @@ custom:
   prefix: pokedex
   accountId: ${self:custom.config.accountIdNumber}
   pokemonsTable: ${self:service}-${self:custom.config.pokemonsTableName}.${self:custom.region}.com
+  getPokemonByIdTopic: ${self:service}-${self:custom.config.getPokemonByIdTopicName}
+  getPokemonByNameTopic: ${self:service}-${self:custom.config.getPokemonByNameTopicName}
+
   seed:
     domain:
         table: ${self:custom.pokemonsTable}
@@ -85,6 +88,9 @@ functions:
           method: get
           cors: true
           private: true
+      - sns:
+          arn: arn:aws:sns:${self:custom.region}:${self:custom.accountId}:${self:custom.getPokemonByIdTopic}
+          topicName: ${self:custom.getPokemonByIdTopic}
 
   get_pokemon_by_name:
     handler: lambdas/pokemons/handler_pokemons.h_get_pokemon_by_name
@@ -96,6 +102,9 @@ functions:
           method: get
           cors: true
           private: true
+      - sns:
+          arn: arn:aws:sns:${self:custom.region}:${self:custom.accountId}:${self:custom.getPokemonByNameTopic}
+          topicName: ${self:custom.getPokemonByNameTopic}
 
   post_pokemon:
     handler: lambdas/pokemons/handler_pokemons.h_post_pokemon
@@ -110,6 +119,15 @@ functions:
 
 resources:
   Resources:
+    #-------------SNS------------------------------------
+    getPokemonByIdTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.getPokemonByIdTopic}
+    getPokemonByNameTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.getPokemonByNameTopic}
     #-------------DYNAMODB------------------------------------
     pokemonsTable:
       Type: AWS::DynamoDB::Table
