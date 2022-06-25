@@ -48,16 +48,14 @@
 <!-- ABOUT THE PROJECT -->
 # 1. About The Project 📢
 
-
- <img src="https://drive.google.com/uc?export=view&id=17ELf6JuMo1UeXZ2_fL_9pEMmUkbi3mwg" alt="Diagram icon">
-
+![](./resources/diagram.png "Diagram")
 </br>
 
 The project consist of a DynamoDB database with pokemons information and 3 endpoints with lambdas. The frontend cosist of a Alexa Skill that use the API serverless provided. The system follows the IaaC patters.
 
+</br>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-</br>
 
 # 2. Built With 🛠️
 
@@ -71,12 +69,11 @@ The project consist of a DynamoDB database with pokemons information and 3 endpo
 
 _GOOD PRACTICES APPLIED_
 
-* Secondary Index created in the pokmeons table to reduce DynamoDB cost of get services
+* Secondary Index created in the pokmeons table to reduce DynamoDB cost of get to O(1)
  
-
+</br>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-</br>
 
 # 3. API 🚀
 
@@ -85,6 +82,10 @@ _GOOD PRACTICES APPLIED_
 | GET |  /prod/pokemons/id/{name} | Get pokemon info by id |
 | GET |   /prod/pokemons/name/{name}   |  Get pokemon by name |
 | POST| prod/pokemons/post |   Save a pokemon in the database |
+
+To test the endpoints, you can download the [Postman Collection](./resources/pokemon.postman_collection.json). <br/>Environment needed:
+* endpoint: _aws url_
+* api-key: _key generated to access the endpoints_
 
 </br>
 
@@ -121,8 +122,7 @@ _Below is an example of how you can instruct your audience on installing and set
     pokemonsTableName: <CustomName>
     pokemonsSeeder: [./seeds/<CustomName.json>]
     apiUrls:
-      pokemons: CustomName
-      scraping: CustomName
+      pokemons: <CustomName>
     accountIdNumber: <AWS_ACCOUNT_ID_NUMBER>
    ```
 

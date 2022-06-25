@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "115f8c9b-095f-406a-ac90-53546852dcbe",
+		"name": "pokemon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"id\": 1,\n\t\t\"name\": \"Bulbasaur\",\n\t\t\"data\": {\n\t\t\t\"type\": [\n\t\t\t\t\"Grass\",\n\t\t\t\t\"Poison\"\n\t\t\t],\n\t\t\t\"base\": {\n\t\t\t\t\"HP\": 45,\n\t\t\t\t\"Attack\": 49,\n\t\t\t\t\"Defense\": 49,\n\t\t\t\t\"Sp. Attack\": 65,\n\t\t\t\t\"Sp. Defense\": 65,\n\t\t\t\t\"Speed\": 45\n\t\t\t}\n\t\t}\n\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/pokemons/post",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"pokemons",
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "by name",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/pokemons/name/:name",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"pokemons",
+						"name",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": "bulbasaur"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "by Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{api-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/pokemons/id/:id",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"pokemons",
+						"id",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
