@@ -23,8 +23,8 @@ def h_get_pokemon_by_id(event, context):
     try:
         headers = event["headers"] if "headers" in event else None
         data = event["pathParameters"] if "pathParameters" in event else None
-        data = event["Records"][0]["Sns"]["Message"] if "Records" in event else None        
-        data = json.loads(data) if data else None
+        if "Records" in event:
+            data = json.loads(event["Records"][0]["Sns"]["Message"])
 
         result = get_pokemon_by_id(data)
 
@@ -47,9 +47,9 @@ def h_get_pokemon_by_name(event, context):
     try:
         headers = event["headers"] if "headers" in event else None
         data = event["pathParameters"] if "pathParameters" in event else None
-        data = event["Records"][0]["Sns"]["Message"] if "Records" in event else None        
-        data = json.loads(data) if data else None
-
+        if "Records" in event:
+            data = json.loads(event["Records"][0]["Sns"]["Message"])
+            
         result = get_pokemon_by_name(data)
 
         response.update({"body": json.dumps(result, cls=DecimalEncoder)})
