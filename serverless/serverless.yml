@@ -81,7 +81,7 @@ functions:
       - arn:aws:lambda:${self:custom.region}:${self:custom.accountId}:layer:aws-xray-sdk:2
     events:
       - http:
-          path: ${self:custom.config.apiUrls.pokemons}/id/{name}
+          path: ${self:custom.config.apiUrls.pokemons}/id/{id}
           method: get
           cors: true
           private: true
@@ -123,6 +123,8 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: NameIndex
             KeySchema:

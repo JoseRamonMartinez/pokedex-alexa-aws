@@ -24,7 +24,6 @@ dybamodb_pokemons_table = dynamodb.Table(pokemons_table)
 def get_pokemon_by_id(data):
     try:
         response = dybamodb_pokemons_table.query(
-            IndexName='PositionIndex',
             KeyConditionExpression=Key('id').eq(int(data["id"]))
         )
         return response["Items"]
@@ -34,6 +33,7 @@ def get_pokemon_by_id(data):
 def get_pokemon_by_name(data):
     try:
         response = dybamodb_pokemons_table.query(
+            IndexName='NameIndex',
             KeyConditionExpression=Key('name').eq(data["name"])
         )
         return response["Items"] 
