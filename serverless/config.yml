@@ -2,10 +2,6 @@
 pokemonsTableName: Pokemons
 pokemonsSeeder: [./seeds/pokemons.json]
 
-#-------------SNS------------------------------------
-getPokemonByIdTopicName: getPokemonByIdTopic
-getPokemonByNameTopicName: getPokemonByNameTopic
-
 #-------------API GATEWAY---------------------------
 apiUrls:
   pokemons: pokemons
