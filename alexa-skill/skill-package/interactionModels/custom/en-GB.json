@@ -1,0 +1,55 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "pokedex",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "GetPokemonByIdIntent",
+          "slots": [
+            {
+              "name": "pokemon_id",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "who is the number {pokemon_id}"
+          ]
+        },
+        {
+          "name": "GetPokemonByNameIntent",
+          "slots": [
+            {
+              "name": "pokemon_name",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "who is {pokemon_name}"
+          ]
+        }
+      ],
+      "types": []
+    }
+  },
+  "version": "2"
+}

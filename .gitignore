@@ -6,3 +6,10 @@
 /serverless/config.
 
 .DS_Store
+
+
+alexa-skill/lambda/node_modules
+alexa-skill/.ask/
+alexa-skill/ask-resources.json
+alexa-skill/.vscode
+alexa-skill/.git
