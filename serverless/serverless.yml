@@ -12,6 +12,7 @@ package:
 provider:
   name: aws
   stage: ${self:custom.stage}
+  tracing: true
   endpointType: regional
   runtime: python3.7
   region: ${self:custom.region}
