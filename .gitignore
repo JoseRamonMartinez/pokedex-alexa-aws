@@ -13,3 +13,4 @@ alexa-skill/.ask/
 alexa-skill/ask-resources.json
 alexa-skill/.vscode
 alexa-skill/.git
+alexa-skill/.env
